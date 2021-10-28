@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:password_memo/add.dart';
 
+
 void main() {
   runApp(const MyApp());
 }
+
+
+
+final items = List<String>.generate(10000, (i) => "Item $i");
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -50,13 +55,13 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-          ],
+        child: ListView.builder(
+          itemCount: items.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              title: Text(items[index]),
+            );
+          },
         ),
       ),
       // This trailing comma makes auto-formatting nicer for build methods.
