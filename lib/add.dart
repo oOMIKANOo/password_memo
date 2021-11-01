@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:password_memo/main.dart';
+import 'package:password_memo/model/model.dart';
 import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
+import 'dart:io';
+import 'package:password_memo/database.dart';
+import 'package:intl/intl.dart';
 
 class Add extends StatelessWidget {
   const Add({Key? key}) : super(key: key);
@@ -29,12 +34,13 @@ class AddPage extends StatefulWidget {
 
 class _AddPageState extends State<AddPage> {
   String _type = '';
-  String _id = '';
+  String _mail = '';
   String _pass = '';
+  int _id = 0;
 
   // 入力された内容を保持するコントローラ
   final inputTypeController = TextEditingController();
-  final inputIdController = TextEditingController();
+  final inputMailController = TextEditingController();
   final inputPassController = TextEditingController();
 
   void _handleType(String e) {
@@ -45,7 +51,7 @@ class _AddPageState extends State<AddPage> {
 
   void _handleId(String e) {
     setState(() {
-      _id = e;
+      _mail = e;
     });
   }
 
@@ -83,7 +89,7 @@ class _AddPageState extends State<AddPage> {
               TextField(
                 decoration: const InputDecoration(hintText: 'IDやメールアドレス'),
                 maxLines: 1,
-                controller: inputIdController,
+                controller: inputMailController,
               ),
               TextField(
                 decoration: const InputDecoration(hintText: 'パスワード'),
@@ -95,10 +101,24 @@ class _AddPageState extends State<AddPage> {
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: ElevatedButton(
                   child: const Text('Submit'),
-                  onPressed: () {
+                  onPressed: () async {
                     _handleType(inputTypeController.text);
-                    _handleId(inputIdController.text);
+                    _handleId(inputMailController.text);
                     _handlePass(inputPassController.text);
+
+                    //日付所得（2020-10-30-1854）
+                    DateTime now = DateTime.now();
+                    DateFormat outputFormat = DateFormat('yyyyMMddHm');
+                    String date = outputFormat.format(now);
+
+                    _id = int.parse(date);
+
+                    var passmodel = PasswordModel(
+                        id: _id, type: _type, pass: _pass, mail: _mail);
+
+
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const MyApp()));
                   },
                 ),
               )
