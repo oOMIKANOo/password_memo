@@ -4,6 +4,7 @@ import 'package:password_memo/database.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:password_memo/model/model.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 void main() async {
   runApp(const MyApp());

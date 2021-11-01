@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:password_memo/main.dart';
 import 'package:password_memo/model/model.dart';
@@ -6,6 +7,7 @@ import 'package:sqflite/sqflite.dart';
 import 'dart:io';
 import 'package:password_memo/database.dart';
 import 'package:intl/intl.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 
 class Add extends StatelessWidget {
   const Add({Key? key}) : super(key: key);
@@ -106,19 +108,32 @@ class _AddPageState extends State<AddPage> {
                     _handleId(inputMailController.text);
                     _handlePass(inputPassController.text);
 
-                    //日付所得（2020-10-30-1854）
+                    //日付所得（202010301854）
                     DateTime now = DateTime.now();
-                    DateFormat outputFormat = DateFormat('yyyyMMddHm');
+                    DateFormat outputFormat = DateFormat('yyyyMMddHms');
                     String date = outputFormat.format(now);
 
+                    //日付を数値に変更
                     _id = int.parse(date);
 
-                    var passmodel = PasswordModel(
+                    var passModel = PasswordModel(
                         id: _id, type: _type, pass: _pass, mail: _mail);
 
+                    await PasswordModel.insertData(passModel);
 
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => const MyApp()));
+                    AwesomeDialog(
+                      context: context,
+                      dialogType: DialogType.SUCCES,
+                      animType: AnimType.LEFTSLIDE,
+                      headerAnimationLoop: true,
+                      title: '保存完了',
+                      btnOkOnPress: () {
+                        debugPrint('OnClcik');
+                      },
+                      btnOkIcon: Icons.check_circle,
+                    ).show();
                   },
                 ),
               )
