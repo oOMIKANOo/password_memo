@@ -1,0 +1,29 @@
+[33mcommit 9c5c6f035a2bca0edb88977cbb4b1578e47447a3[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;32mrelease1.0.0[m[33m)[m
+Author: Keito Nakamori <akiresu133@gmail.com>
+Date:   Wed Nov 3 17:10:05 2021 +0900
+
+    modify modifypage&mainpage
+
+[33mcommit e3b6606e309900ec512eb040525be5e08e924493[m
+Author: Keito Nakamori <akiresu133@gmail.com>
+Date:   Tue Nov 2 02:14:49 2021 +0900
+
+    ダイアログ追加
+
+[33mcommit a83e9ed0b59ae5d7b7cb9b5b501edee0d7588a2f[m
+Author: Keito Nakamori <akiresu133@gmail.com>
+Date:   Tue Nov 2 01:11:18 2021 +0900
+
+    modify main&create db
+
+[33mcommit 4ff11d33d8d686cfab5b1d7df904f1ade3598198[m
+Author: Keito Nakamori <akiresu133@gmail.com>
+Date:   Fri Oct 29 01:15:37 2021 +0900
+
+    add create
+
+[33mcommit a6b7e5d99312c40f00abddd48ed46de4480e380c[m
+Author: Keito Nakamori <akiresu133@gmail.com>
+Date:   Sun Oct 24 00:17:14 2021 +0900
+
+    1st commit
