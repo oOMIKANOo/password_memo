@@ -9,8 +9,19 @@ import 'package:password_memo/database.dart';
 import 'package:intl/intl.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 
-class Add extends StatelessWidget {
-  const Add({Key? key}) : super(key: key);
+class Modify extends StatelessWidget {
+  const Modify(
+      {Key? key,
+      required this.getId,
+      required this.getType,
+      required this.getMail,
+      required this.getPass})
+      : super(key: key);
+
+  final int getId;
+  final String getType;
+  final String getMail;
+  final String getPass;
 
   // This widget is the root of your application.
   @override
@@ -20,25 +31,41 @@ class Add extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.green,
       ),
-      home: const AddPage(title: 'ぱすめも'),
+      home: ModifyPage(
+        title: 'ぱすめも',
+        preID: getId,
+        preType: getType,
+        preMail: getMail,
+        prePass: getPass,
+      ),
     );
   }
 }
 
-class AddPage extends StatefulWidget {
-  const AddPage({Key? key, required this.title}) : super(key: key);
+class ModifyPage extends StatefulWidget {
+  const ModifyPage({
+    Key? key,
+    required this.title,
+    required this.preID,
+    required this.preType,
+    required this.preMail,
+    required this.prePass,
+  }) : super(key: key);
 
   final String title;
+  final int preID;
+  final String preType;
+  final String preMail;
+  final String prePass;
 
   @override
-  State<AddPage> createState() => _AddPageState();
+  State<ModifyPage> createState() => _ModifyPageState();
 }
 
-class _AddPageState extends State<AddPage> {
+class _ModifyPageState extends State<ModifyPage> {
   String _type = '';
   String _mail = '';
   String _pass = '';
-  int _id = 0;
 
   // 入力された内容を保持するコントローラ
   final inputTypeController = TextEditingController();
@@ -64,6 +91,12 @@ class _AddPageState extends State<AddPage> {
   }
 
   @override
+  void initState(){
+    inputTypeController.text=widget.preType;
+    inputMailController.text=widget.preMail;
+    inputPassController.text=widget.prePass;
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -92,11 +125,12 @@ class _AddPageState extends State<AddPage> {
                 decoration: const InputDecoration(
                     hintText: 'IDやメールアドレス', icon: Icon(Icons.account_circle)),
                 maxLines: 1,
-                controller: inputMailController,
                 keyboardType: TextInputType.emailAddress,
+                controller: inputMailController,
               ),
               TextField(
-                decoration: const InputDecoration(hintText: 'パスワード', icon: Icon(Icons.security)),
+                decoration: const InputDecoration(
+                    hintText: 'パスワード', icon: Icon(Icons.security)),
                 obscureText: true,
                 maxLines: 1,
                 controller: inputPassController,
@@ -110,18 +144,13 @@ class _AddPageState extends State<AddPage> {
                     _handleId(inputMailController.text);
                     _handlePass(inputPassController.text);
 
-                    //日付所得（202010301854）
-                    DateTime now = DateTime.now();
-                    DateFormat outputFormat = DateFormat('yyyyMMddHms');
-                    String date = outputFormat.format(now);
-
-                    //日付を数値に変更
-                    _id = int.parse(date);
-
                     var passModel = PasswordModel(
-                        id: _id, type: _type, pass: _pass, mail: _mail);
+                        id: widget.preID,
+                        type: _type,
+                        pass: _pass,
+                        mail: _mail);
 
-                    await PasswordModel.insertData(passModel);
+                    await PasswordModel.updateData(passModel);
 
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => const MyApp()));
@@ -130,7 +159,7 @@ class _AddPageState extends State<AddPage> {
                       dialogType: DialogType.SUCCES,
                       animType: AnimType.LEFTSLIDE,
                       headerAnimationLoop: true,
-                      title: '保存完了',
+                      title: '変更完了',
                       btnOkOnPress: () {
                         debugPrint('OnClcik');
                       },

@@ -63,12 +63,24 @@ class PasswordModel {
     );
   }
 
-  static Future<void> deleteMemo(int id) async {
+  static Future<void> deleteData(int id) async {
     final db = await database;
     await db.delete(
       'pass',
       where: "id = ?",
       whereArgs: [id],
+    );
+  }
+
+  static Future<void> updateData(PasswordModel passModel) async {
+    // Get a reference to the database.
+    final db = await database;
+    await db.update(
+      'pass',
+      passModel.toMap(),
+      where: "id = ?",
+      whereArgs: [passModel.id],
+      conflictAlgorithm: ConflictAlgorithm.fail,
     );
   }
 }

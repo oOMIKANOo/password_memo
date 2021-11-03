@@ -5,6 +5,8 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:password_memo/model/model.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:password_memo/modify.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 
 void main() async {
   runApp(const MyApp());
@@ -98,11 +100,64 @@ class _MyHomePageState extends State<MyHomePage> {
                 padding: const EdgeInsets.all(10.0),
                 itemCount: _list.length,
                 itemBuilder: (context, index) {
-                  return Card(
-                      child: ListTile(
-                        title: Text(_list[index].type),
-                        subtitle: Text(_list[index].mail),
-                  ));
+                  return Slidable(
+                    actionPane: SlidableStrechActionPane(),
+                    actionExtentRatio: 0.2,
+                    actions: [
+                      IconSlideAction(
+                        caption: '編集',
+                        color: Colors.lightGreen,
+                        icon: Icons.border_color,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Modify(
+                                      getId: _list[index].id,
+                                      getType: _list[index].type,
+                                      getMail: _list[index].mail,
+                                      getPass: _list[index].pass,
+                                    )),
+                          );
+                        },
+                      ),
+                    ],
+                    secondaryActions: [
+                      IconSlideAction(
+                        caption: '削除',
+                        color: Colors.red,
+                        icon: Icons.remove,
+                        onTap: () {
+                          AwesomeDialog(
+                            context: context,
+                            dialogType: DialogType.WARNING,
+                            animType: AnimType.LEFTSLIDE,
+                            headerAnimationLoop: true,
+                            title: '注意',
+                            desc: 'このデータを削除してもよろしいですか？',
+                            btnOkOnPress: () async {
+                              debugPrint('OnClcik');
+                              //DBから削除処理
+                              await PasswordModel.deleteData(_list[index].id);
+                              //画面再描画
+                              setState(() {});
+                            },
+                            btnOkIcon: Icons.check_circle,
+                            btnCancelOnPress: () {
+                              //画面再描画
+                              setState(() {});
+                            },
+                            btnCancelIcon: Icons.cancel,
+                          ).show();
+                        },
+                      ),
+                    ],
+                    child: ListTile(
+                      title: Text(_list[index].type),
+                      subtitle: Text(
+                          'ID:${_list[index].mail}   パスワード:${_list[index].pass}'),
+                    ),
+                  );
                 },
               );
             },
