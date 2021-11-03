@@ -35,6 +35,17 @@ https://user-images.githubusercontent.com/80662039/140049615-714ea675-2865-4218-
 https://user-images.githubusercontent.com/80662039/140050321-332f626c-a215-4620-8b84-40f7dbdad237.mp4
 
 
+* メモの削除
+
+
+https://user-images.githubusercontent.com/80662039/140050701-ea4c71e2-505f-4495-94ab-0515e74c7bdd.mp4
+
+
+
+## 特徴
+* ID欄にはメールアドレスも固有文字列も大丈夫です。
+* 削除確認用などの、わかりやすくてインパクトのあるダイアログを実装。
+* スライドバーを採用して、編集・削除をしやすく。
 
 
 
