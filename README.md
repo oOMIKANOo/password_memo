@@ -1,6 +1,6 @@
 # password_memo
 
-A new Flutter project.
+このリポジトリは自分が製作したAndroidアプリである「ぱすめも」のリポジトリです。
 
 ## Getting Started
 
